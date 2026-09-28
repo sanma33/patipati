@@ -1,0 +1,814 @@
+/* =====================================
+   TOOL PAGE
+===================================== */
+
+.tool-main {
+  padding-top: 42px;
+}
+
+
+/* =====================================
+   HERO
+===================================== */
+
+.tool-hero {
+  background:
+    linear-gradient(
+      135deg,
+      #182638 0%,
+      #22364b 100%
+    );
+
+  color: white;
+
+  padding:
+    38px 0 55px;
+}
+
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-bottom: 38px;
+
+  font-size: 12px;
+
+  color: #93a1b1;
+}
+
+
+.breadcrumb a {
+  color: #bcc8d4;
+
+  text-decoration: none;
+}
+
+
+.breadcrumb a:hover {
+  color: white;
+}
+
+
+.breadcrumb strong {
+  color: white;
+}
+
+
+.tool-hero-content {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: flex-end;
+
+  gap: 40px;
+}
+
+
+.tool-category,
+.section-kicker {
+  display: block;
+
+  color: var(--accent);
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: .15em;
+}
+
+
+.tool-hero .tool-category {
+  color: #67d3c9;
+}
+
+
+.tool-hero h1 {
+  margin:
+    8px 0 15px;
+
+  font-size:
+    clamp(34px, 6vw, 52px);
+
+  line-height: 1.2;
+}
+
+
+.tool-hero p {
+  max-width: 660px;
+
+  margin: 0;
+
+  color: #c6d0da;
+
+  line-height: 1.9;
+}
+
+
+.tool-hero-info {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  justify-content: flex-end;
+
+  gap: 7px;
+}
+
+
+.tool-hero-info span {
+  padding:
+    6px 11px;
+
+  border:
+    1px solid rgba(255,255,255,.15);
+
+  border-radius:
+    30px;
+
+  color: #d5dee7;
+
+  font-size: 11px;
+}
+
+
+/* =====================================
+   COMMON TOOL SECTION
+===================================== */
+
+.tool-section-header {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 25px;
+
+  margin-bottom: 26px;
+}
+
+
+.tool-section-header h2,
+.tool-section-title h2 {
+  margin:
+    5px 0 0;
+
+  font-size: 25px;
+}
+
+
+.tool-section-title {
+  margin:
+    55px 0 22px;
+}
+
+
+.tool-section-title p {
+  margin:
+    6px 0 0;
+
+  color: var(--text-light);
+
+  font-size: 14px;
+}
+
+
+.browser-badge {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  color: #55706d;
+
+  font-size: 12px;
+
+  background: #edf7f5;
+
+  border-radius: 30px;
+
+  padding:
+    7px 11px;
+}
+
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+
+  background: #34a99e;
+
+  border-radius: 50%;
+}
+
+
+/* =====================================
+   SIMULATOR
+===================================== */
+
+.simulator-panel {
+  margin-bottom: 35px;
+}
+
+
+.preset-area > p {
+  margin:
+    0 0 9px;
+
+  color: var(--text-light);
+
+  font-size: 12px;
+}
+
+
+.number-input {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+
+.number-input span {
+  color: var(--text-light);
+
+  white-space: nowrap;
+}
+
+
+.simulation-summary {
+  margin:
+    25px 0 13px;
+
+  text-align: center;
+
+  color: var(--text-light);
+
+  font-size: 13px;
+}
+
+
+.simulation-summary strong {
+  margin:
+    0 5px;
+
+  color: var(--text);
+
+  font-size: 16px;
+}
+
+
+.simulate-button {
+  width: 100%;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 10px;
+
+  padding:
+    15px 20px;
+
+  border: 0;
+
+  border-radius: 10px;
+
+  background: var(--accent);
+
+  color: white;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    .2s;
+}
+
+
+.simulate-button:hover {
+  background: var(--accent-hover);
+
+  transform:
+    translateY(-1px);
+}
+
+
+.simulate-button:disabled {
+  opacity: .65;
+
+  cursor: wait;
+
+  transform: none;
+}
+
+
+.play-icon {
+  font-size: 11px;
+}
+
+
+/* =====================================
+   RESULT
+===================================== */
+
+.result-card small {
+  display: block;
+
+  margin-top: 6px;
+
+  color: #98a2b0;
+
+  font-size: 9px;
+
+  letter-spacing: .12em;
+}
+
+
+.result-card.feature small {
+  color: #8697a8;
+}
+
+
+/* =====================================
+   ANALYSIS
+===================================== */
+
+.analysis-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 14px;
+}
+
+
+.analysis-box {
+  background: var(--surface-soft);
+
+  border-radius: 11px;
+
+  padding: 20px;
+}
+
+
+.analysis-box span {
+  color: var(--text-light);
+
+  font-size: 12px;
+}
+
+
+.analysis-box strong {
+  display: block;
+
+  margin-top: 8px;
+
+  font-size: 22px;
+}
+
+
+/* =====================================
+   HIT PROBABILITY
+===================================== */
+
+.hit-probability-card {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 40px;
+
+  margin-bottom: 26px;
+
+  padding:
+    36px;
+
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #182638,
+      #223a49
+    );
+
+  color: white;
+}
+
+
+.hit-probability-card h2 {
+  margin:
+    7px 0 9px;
+
+  font-size: 25px;
+}
+
+
+.hit-probability-card p {
+  margin: 0;
+
+  color: #b9c7d2;
+
+  font-size: 13px;
+}
+
+
+.hit-probability-value {
+  text-align: right;
+}
+
+
+.hit-probability-value > strong {
+  display: block;
+
+  font-size:
+    clamp(38px, 7vw, 57px);
+
+  line-height: 1;
+
+  color: #72d7cf;
+}
+
+
+.hit-probability-value div {
+  margin-top: 12px;
+
+  color: #b9c6d1;
+
+  font-size: 12px;
+}
+
+
+.hit-probability-value b {
+  margin-left: 6px;
+
+  color: white;
+}
+
+
+/* =====================================
+   CHART
+===================================== */
+
+.chart-heading {
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 30px;
+
+  margin-bottom: 18px;
+}
+
+
+.chart-heading h2 {
+  margin:
+    5px 0;
+
+  font-size: 25px;
+}
+
+
+.chart-heading p {
+  margin: 0;
+
+  color: var(--text-light);
+
+  font-size: 13px;
+}
+
+
+.average-display {
+  min-width: 120px;
+
+  text-align: right;
+}
+
+
+.average-display span {
+  display: block;
+
+  color: var(--text-light);
+
+  font-size: 12px;
+}
+
+
+.average-display strong {
+  font-size: 28px;
+}
+
+
+.chart-panel {
+  overflow: hidden;
+}
+
+
+.chart-container {
+  position: relative;
+
+  height: 400px;
+
+  padding-top: 10px;
+}
+
+
+/* =====================================
+   TABLE
+===================================== */
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+
+table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  min-width: 620px;
+}
+
+
+th {
+  padding:
+    12px 14px;
+
+  color: #7c8795;
+
+  font-size: 11px;
+
+  text-align: left;
+
+  border-bottom:
+    1px solid var(--border);
+}
+
+
+td {
+  padding:
+    14px;
+
+  border-bottom:
+    1px solid #edf0f3;
+
+  font-size: 13px;
+}
+
+
+tbody tr:hover {
+  background: #fafbfc;
+}
+
+
+.empty-table {
+  text-align: center;
+
+  padding: 38px;
+
+  color: var(--text-light);
+}
+
+
+/* =====================================
+   RELATED
+===================================== */
+
+.related-tools {
+  margin:
+    55px 0;
+}
+
+
+.related-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 15px;
+}
+
+
+.related-card {
+  display: flex;
+
+  align-items: center;
+
+  gap: 16px;
+
+  padding: 20px;
+
+  background: white;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 13px;
+
+  text-decoration: none;
+
+  color: var(--text);
+
+  transition: .2s;
+}
+
+
+.related-card:hover {
+  transform:
+    translateY(-2px);
+
+  box-shadow: var(--shadow);
+}
+
+
+.related-card > strong {
+  margin-left: auto;
+
+  color: var(--accent);
+}
+
+
+.related-icon {
+  flex: 0 0 auto;
+
+  width: 43px;
+  height: 43px;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 10px;
+
+  background: #e9f6f4;
+
+  color: var(--accent);
+
+  font-weight: bold;
+}
+
+
+.related-card h3 {
+  margin: 0;
+
+  font-size: 15px;
+}
+
+
+.related-card p {
+  margin:
+    3px 0 0;
+
+  color: var(--text-light);
+
+  font-size: 12px;
+}
+
+
+.related-card.disabled {
+  opacity: .65;
+}
+
+
+.coming {
+  margin-left: auto;
+
+  font-size: 9px;
+
+  color: var(--text-light);
+}
+
+
+/* =====================================
+   ABOUT
+===================================== */
+
+.tool-about {
+  margin-top: 55px;
+
+  line-height: 1.9;
+}
+
+
+.tool-about h2 {
+  margin:
+    5px 0 20px;
+}
+
+
+.tool-about p {
+  color: var(--text-light);
+}
+
+
+.tool-note {
+  margin-top: 22px;
+
+  padding:
+    15px 17px;
+
+  background: #f2f6f7;
+
+  border-left:
+    3px solid var(--accent);
+
+  color: #53626f;
+
+  font-size: 13px;
+}
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 800px) {
+
+  .tool-hero-content {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+
+  .tool-hero-info {
+    justify-content: flex-start;
+  }
+
+
+  .analysis-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+
+  .hit-probability-card {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+
+  .hit-probability-value {
+    text-align: left;
+  }
+
+
+  .related-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .chart-container {
+    height: 330px;
+  }
+
+}
+
+
+@media (max-width: 480px) {
+
+  .tool-hero {
+    padding:
+      25px 0 42px;
+  }
+
+
+  .breadcrumb {
+    margin-bottom: 25px;
+  }
+
+
+  .analysis-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .chart-heading {
+    flex-direction: column;
+  }
+
+
+  .average-display {
+    text-align: left;
+  }
+
+
+  .chart-container {
+    height: 280px;
+  }
+
+
+  .hit-probability-card {
+    padding: 25px;
+  }
+
+}
