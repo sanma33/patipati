@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    確率シミュレーター｜Probability Lab
+  </title>
+
+  <meta
+    name="description"
+    content="1/99、1/199、1/319、1/8192など任意の確率を大量試行できる無料確率シミュレーター。実測確率、最大ハマり、当選回数分布、理論値との比較を確認できます。"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../../assets/css/common.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../../assets/css/tool.css"
+  >
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/chart.js"
+  ></script>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="site-header">
+
+  <div class="header-inner">
+
+    <a
+      href="../../"
+      class="logo"
+    >
+      Probability<span>Lab</span>
+    </a>
+
+
+    <nav class="main-nav">
+
+      <a href="../../">
+        ホーム
+      </a>
+
+      <a href="../../#tools">
+        ツール
+      </a>
+
+      <a href="#simulator">
+        シミュレーター
+      </a>
+
+      <a href="#about">
+        解説
+      </a>
+
+    </nav>
+
+  </div>
+
+</header>
+
+
+<!-- =========================
+     TOOL HERO
+========================= -->
+
+<section class="tool-hero">
+
+  <div class="container">
+
+    <div class="breadcrumb">
+
+      <a href="../../">
+        ホーム
+      </a>
+
+      <span>›</span>
+
+      <a href="../../#tools">
+        確率ツール
+      </a>
+
+      <span>›</span>
+
+      <strong>
+        確率シミュレーター
+      </strong>
+
+    </div>
+
+
+    <div class="tool-hero-content">
+
+      <div>
+
+        <span class="tool-category">
+          PROBABILITY SIMULATOR
+        </span>
+
+        <h1>
+          確率シミュレーター
+        </h1>
+
+        <p>
+          任意の確率を大量に試行し、
+          理論値と実際の結果の違いを確認できます。
+          最大ハマりや当選回数の分布も表示します。
+        </p>
+
+      </div>
+
+
+      <div class="tool-hero-info">
+
+        <span>
+          無料
+        </span>
+
+        <span>
+          登録不要
+        </span>
+
+        <span>
+          ブラウザ計算
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<main class="container tool-main">
+
+
+<!-- =========================
+     SIMULATOR
+========================= -->
+
+<section
+  class="panel simulator-panel"
+  id="simulator"
+>
+
+  <div class="tool-section-header">
+
+    <div>
+
+      <span class="section-kicker">
+        SETTINGS
+      </span>
+
+      <h2>
+        シミュレーション条件
+      </h2>
+
+    </div>
+
+
+    <div class="browser-badge">
+
+      <span class="status-dot"></span>
+
+      ブラウザ内で処理
+
+    </div>
+
+  </div>
+
+
+
+  <div class="preset-area">
+
+    <p>
+      よく使う確率
+    </p>
+
+
+    <div class="preset-list">
+
+      <button
+        class="preset"
+        data-value="99"
+      >
+        1/99
+      </button>
+
+      <button
+        class="preset"
+        data-value="129"
+      >
+        1/129
+      </button>
+
+      <button
+        class="preset"
+        data-value="199"
+      >
+        1/199
+      </button>
+
+      <button
+        class="preset active"
+        data-value="319"
+      >
+        1/319
+      </button>
+
+      <button
+        class="preset"
+        data-value="399"
+      >
+        1/399
+      </button>
+
+      <button
+        class="preset"
+        data-value="8192"
+      >
+        1/8192
+      </button>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="input-grid">
+
+
+    <div class="input-group">
+
+      <label for="probability">
+        当選確率
+      </label>
+
+      <div class="number-input">
+
+        <span>
+          1 /
+        </span>
+
+        <input
+          id="probability"
+          type="number"
+          value="319"
+          min="1"
+          step="0.1"
+        >
+
+      </div>
+
+      <small>
+        例：1/319なら「319」
+      </small>
+
+    </div>
+
+
+
+    <div class="input-group">
+
+      <label for="trials">
+        1セットの試行回数
+      </label>
+
+      <div class="number-input">
+
+        <input
+          id="trials"
+          type="number"
+          value="1000"
+          min="1"
+        >
+
+        <span>
+          回
+        </span>
+
+      </div>
+
+      <small>
+        1回のシミュレーションで試す回数
+      </small>
+
+    </div>
+
+
+
+    <div class="input-group">
+
+      <label for="simulations">
+        シミュレーション回数
+      </label>
+
+      <div class="number-input">
+
+        <input
+          id="simulations"
+          type="number"
+          value="5000"
+          min="1"
+        >
+
+        <span>
+          セット
+        </span>
+
+      </div>
+
+      <small>
+        同条件を何回繰り返すか
+      </small>
+
+    </div>
+
+
+  </div>
+
+
+
+  <div class="simulation-summary">
+
+    <span>
+      総抽選回数
+    </span>
+
+    <strong id="operationPreview">
+      5,000,000
+    </strong>
+
+    <span>
+      回
+    </span>
+
+  </div>
+
+
+
+  <button
+    class="simulate-button"
+    id="runButton"
+  >
+
+    <span class="play-icon">
+      ▶
+    </span>
+
+    シミュレーション開始
+
+  </button>
+
+</section>
+
+
+
+<!-- =========================
+     RESULTS
+========================= -->
+
+<section
+  class="results-area"
+  id="results"
+>
+
+  <div class="tool-section-title">
+
+    <span class="section-kicker">
+      RESULTS
+    </span>
+
+    <h2>
+      シミュレーション結果
+    </h2>
+
+    <p>
+      実際に生成された乱数から集計した結果です。
+    </p>
+
+  </div>
+
+
+
+  <div class="result-grid">
+
+
+    <div class="result-card">
+
+      <span>
+        総試行回数
+      </span>
+
+      <strong id="totalTrials">
+        -
+      </strong>
+
+      <small>
+        TOTAL TRIALS
+      </small>
+
+    </div>
+
+
+
+    <div class="result-card feature">
+
+      <span>
+        総当選回数
+      </span>
+
+      <strong id="totalWins">
+        -
+      </strong>
+
+      <small>
+        TOTAL HITS
+      </small>
+
+    </div>
+
+
+
+    <div class="result-card">
+
+      <span>
+        実測確率
+      </span>
+
+      <strong id="actualProbability">
+        -
+      </strong>
+
+      <small>
+        ACTUAL RATE
+      </small>
+
+    </div>
+
+
+
+    <div class="result-card">
+
+      <span>
+        最大ハマり
+      </span>
+
+      <strong id="maxMiss">
+        -
+      </strong>
+
+      <small>
+        MAX DROUGHT
+      </small>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     ANALYSIS
+========================= -->
+
+<section class="panel analysis-panel">
+
+  <div class="tool-section-header">
+
+    <div>
+
+      <span class="section-kicker">
+        ANALYSIS
+      </span>
+
+      <h2>
+        理論値との比較
+      </h2>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="analysis-grid">
+
+
+    <div class="analysis-box">
+
+      <span>
+        理論当選回数
+      </span>
+
+      <strong id="expectedWins">
+        -
+      </strong>
+
+    </div>
+
+
+
+    <div class="analysis-box">
+
+      <span>
+        1セット平均当選
+      </span>
+
+      <strong id="averageWins">
+        -
+      </strong>
+
+    </div>
+
+
+
+    <div class="analysis-box">
+
+      <span>
+        理論値との差
+      </span>
+
+      <strong id="winDifference">
+        -
+      </strong>
+
+    </div>
+
+
+
+    <div class="analysis-box">
+
+      <span>
+        誤差率
+      </span>
+
+      <strong id="errorRate">
+        -
+      </strong>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     HIT PROBABILITY
+========================= -->
+
+<section class="hit-probability-card">
+
+  <div class="hit-probability-copy">
+
+    <span class="section-kicker">
+      THEORETICAL PROBABILITY
+    </span>
+
+    <h2>
+      この回転数以内に
+      <br>
+      1回以上当たる確率
+    </h2>
+
+    <p>
+      シミュレーションではなく、
+      数学的な理論値です。
+    </p>
+
+  </div>
+
+
+
+  <div class="hit-probability-value">
+
+    <strong id="hitWithinProbability">
+      -
+    </strong>
+
+    <div>
+
+      一度も当たらない確率
+
+      <b id="missWithinProbability">
+        -
+      </b>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     CHART
+========================= -->
+
+<section class="panel chart-panel">
+
+  <div class="chart-heading">
+
+    <div>
+
+      <span class="section-kicker">
+        DISTRIBUTION
+      </span>
+
+      <h2>
+        当選回数の分布
+      </h2>
+
+      <p>
+        各セットで何回当選したのかを
+        分布として表示します。
+      </p>
+
+    </div>
+
+
+    <div class="average-display">
+
+      <span>
+        平均当選
+      </span>
+
+      <strong id="chartAverage">
+        -
+      </strong>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="chart-container">
+
+    <canvas
+      id="distributionChart"
+    ></canvas>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     SAMPLE TABLE
+========================= -->
+
+<section class="panel">
+
+  <div class="tool-section-header">
+
+    <div>
+
+      <span class="section-kicker">
+        SAMPLE
+      </span>
+
+      <h2>
+        シミュレーション例
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div class="table-wrapper">
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>
+            #
+          </th>
+
+          <th>
+            試行回数
+          </th>
+
+          <th>
+            当選
+          </th>
+
+          <th>
+            最大ハマり
+          </th>
+
+          <th>
+            実測確率
+          </th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody id="historyBody">
+
+        <tr>
+
+          <td
+            colspan="5"
+            class="empty-table"
+          >
+            シミュレーションを実行すると
+            結果が表示されます。
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     RELATED TOOLS
+========================= -->
+
+<section class="related-tools">
+
+  <div class="tool-section-title">
+
+    <span class="section-kicker">
+      RELATED TOOLS
+    </span>
+
+    <h2>
+      関連する確率ツール
+    </h2>
+
+  </div>
+
+
+  <div class="related-grid">
+
+
+    <a
+      href="../hamari/"
+      class="related-card"
+    >
+
+      <span class="related-icon">
+        ↓
+      </span>
+
+      <div>
+
+        <h3>
+          ハマり確率計算
+        </h3>
+
+        <p>
+          ○回連続で当たらない確率を計算
+        </p>
+
+      </div>
+
+      <strong>
+        →
+      </strong>
+
+    </a>
+
+
+
+    <div class="related-card disabled">
+
+      <span class="related-icon">
+        ∞
+      </span>
+
+      <div>
+
+        <h3>
+          継続率計算
+        </h3>
+
+        <p>
+          平均継続回数や連チャン確率
+        </p>
+
+      </div>
+
+      <span class="coming">
+        COMING SOON
+      </span>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     ABOUT
+========================= -->
+
+<section
+  class="panel tool-about"
+  id="about"
+>
+
+  <span class="section-kicker">
+    ABOUT THIS TOOL
+  </span>
+
+  <h2>
+    確率シミュレーターとは
+  </h2>
+
+  <p>
+    指定された確率に従って乱数を生成し、
+    実際に大量の試行を行った場合に
+    どのような結果になるのかを確認できるツールです。
+  </p>
+
+  <p>
+    例えば1/319を1000回試行すると、
+    理論上は約3.13回当選します。
+    しかし実際のシミュレーションでは、
+    0回や1回しか当たらない場合もあれば、
+    6回以上当たる場合もあります。
+  </p>
+
+  <div class="tool-note">
+
+    表示される結果は乱数による
+    シミュレーションです。
+    実際の結果や将来の結果を
+    保証するものではありません。
+
+  </div>
+
+</section>
+
+
+</main>
+
+
+
+<footer>
+
+  <div class="footer-inner">
+
+    <div>
+
+      <strong>
+        Probability Lab
+      </strong>
+
+      <div>
+        確率を、もっと分かりやすく。
+      </div>
+
+    </div>
+
+    <span>
+      © 2026 Probability Lab
+    </span>
+
+  </div>
+
+</footer>
+
+
+<script
+  src="../../assets/js/probability.js"
+></script>
+
+</body>
+
+</html>
