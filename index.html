@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>確率シミュレーター｜1/319・1/99・任意確率を試行</title>
+
+  <meta
+    name="description"
+    content="1/319、1/99、1/8192など好きな確率を指定してシミュレーションできる無料ツールです。最大ハマり、当選回数、実測確率、理論値との差を確認できます。"
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Hiragino Kaku Gothic ProN",
+        "Yu Gothic",
+        sans-serif;
+      background: #f4f6f9;
+      color: #222;
+    }
+
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid #ddd;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+
+    header p {
+      margin: 0;
+      color: #666;
+      font-size: 14px;
+    }
+
+    main {
+      width: min(900px, 94%);
+      margin: 30px auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 22px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 21px;
+    }
+
+    .input-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: #777;
+      margin-top: 5px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      border: none;
+      border-radius: 9px;
+      padding: 14px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #222;
+      color: white;
+    }
+
+    button:hover {
+      opacity: 0.85;
+    }
+
+    .results {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .result-box {
+      background: #f7f8fa;
+      padding: 18px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .result-title {
+      color: #666;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .result-value {
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .positive {
+      color: #08783d;
+    }
+
+    .negative {
+      color: #c53c36;
+    }
+
+    .history {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      min-width: 600px;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background: #f4f5f7;
+      font-size: 13px;
+    }
+
+    .about {
+      line-height: 1.8;
+      color: #444;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 15px;
+      color: #777;
+      font-size: 12px;
+    }
+
+    @media (max-width: 700px) {
+      header h1 {
+        font-size: 22px;
+      }
+
+      main {
+        margin-top: 18px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
+      .input-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .results {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .result-value {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>確率シミュレーター</h1>
+  <p>1/319・1/99・1/8192など、好きな確率で試行できます。</p>
+</header>
+
+<main>
+
+  <section class="card">
+    <h2>シミュレーション条件</h2>
+
+    <div class="input-grid">
+
+      <div class="field">
+        <label for="probability">当選確率 1 /</label>
+        <input
+          id="probability"
+          type="number"
+          value="319"
+          min="1"
+          step="0.1"
+        >
+        <div class="hint">
+          例：1/319なら「319」
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="trials">1回あたりの試行回数</label>
+        <input
+          id="trials"
+          type="number"
+          value="1000"
+          min="1"
+          max="1000000"
+        >
+        <div class="hint">
+          例：1000回転
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="simulations">シミュレーション回数</label>
+        <input
+          id="simulations"
+          type="number"
+          value="1000"
+          min="1"
+          max="100000"
+        >
+        <div class="hint">
+          同条件を何回試すか
+        </div>
+      </div>
+
+    </div>
+
+    <button onclick="runSimulation()">
+      シミュレーション開始
+    </button>
+  </section>
+
+
+  <section class="card">
+    <h2>結果</h2>
+
+    <div class="results">
+
+      <div class="result-box">
+        <div class="result-title">
+          総試行回数
+        </div>
+        <div
+          class="result-value"
+          id="totalTrials"
+        >
+          -
+        </div>
+      </div>
+
+      <div class="result-box">
+        <div class="result-title">
+          総当選回数
+        </div>
+        <div
+          class="result-value"
+          id="totalWins"
+        >
+          -
+        </div>
+      </div>
+
+      <div class="result-box">
+        <div class="result-title">
+          実測確率
+        </div>
+        <div
+          class="result-value"
+          id="actualProbability"
+        >
+          -
+        </div>
+      </div>
+
+      <div class="result-box">
+        <div class="result-title">
+          理論上の当選回数
+        </div>
+        <div
+          class="result-value"
+          id="expectedWins"
+        >
+          -
+        </div>
+      </div>
+
+      <div class="result-box">
+        <div class="result-title">
+          最大ハマり
+        </div>
+        <div
+          class="result-value"
+          id="maxMiss"
+        >
+          -
+        </div>
+      </div>
+
+      <div class="result-box">
+        <div class="result-title">
+          1シミュレーション平均当選
+        </div>
+        <div
+          class="result-value"
+          id="averageWins"
+        >
+          -
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <section class="card">
+    <h2>理論値との差</h2>
+
+    <div class="results">
+
+      <div class="result-box">
+        <div class="result-title">
+          理論値
+        </div>
+        <div
+          class="result-value"
+          id="theoreticalProbability"
+        >
+          -
+        </div>
+      </div>
+
+      <div class="result-box">
+        <div class="result-title">
+          当選回数差
+        </div>
+        <div
+          class="result-value"
+          id="winDifference"
+        >
+          -
+        </div>
+      </div>
+
+      <div class="result-box">
+        <div class="result-title">
+          誤差率
+        </div>
+        <div
+          class="result-value"
+          id="errorRate"
+        >
+          -
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <section class="card history">
+    <h2>直近20回の結果</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>試行回数</th>
+          <th>当選回数</th>
+          <th>最大ハマり</th>
+          <th>実測確率</th>
+        </tr>
+      </thead>
+
+      <tbody id="historyBody">
+        <tr>
+          <td colspan="5">
+            まだシミュレーションされていません。
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+
+  <section class="card about">
+    <h2>このツールについて</h2>
+
+    <p>
+      指定した確率で乱数によるシミュレーションを行います。
+      例えば「319」と入力すると、1回の試行につき
+      約1/319の確率で当選するものとして計算します。
+    </p>
+
+    <p>
+      シミュレーション結果は乱数によるものなので、
+      実行するたびに結果が変化します。
+      表示される数値は将来の結果を保証するものではありません。
+    </p>
+  </section>
+
+</main>
+
+
+<footer>
+  確率シミュレーター
+</footer>
+
+
+<script>
+
+function formatNumber(number) {
+  return Number(number).toLocaleString("ja-JP");
+}
+
+
+function runSimulation() {
+
+  const denominator =
+    parseFloat(
+      document.getElementById("probability").value
+    );
+
+  const trials =
+    parseInt(
+      document.getElementById("trials").value
+    );
+
+  const simulations =
+    parseInt(
+      document.getElementById("simulations").value
+    );
+
+
+  if (
+    !denominator ||
+    denominator <= 0 ||
+    !trials ||
+    trials <= 0 ||
+    !simulations ||
+    simulations <= 0
+  ) {
+    alert("正しい数値を入力してください。");
+    return;
+  }
+
+
+  const probability = 1 / denominator;
+
+  let totalWins = 0;
+
+  let overallMaxMiss = 0;
+
+  const history = [];
+
+
+  for (
+    let simulation = 0;
+    simulation < simulations;
+    simulation++
+  ) {
+
+    let wins = 0;
+
+    let currentMiss = 0;
+
+    let maxMiss = 0;
+
+
+    for (
+      let trial = 0;
+      trial < trials;
+      trial++
+    ) {
+
+      if (Math.random() < probability) {
+
+        wins++;
+
+        currentMiss = 0;
+
+      } else {
+
+        currentMiss++;
+
+        if (currentMiss > maxMiss) {
+          maxMiss = currentMiss;
+        }
+
+      }
+
+    }
+
+
+    totalWins += wins;
+
+
+    if (maxMiss > overallMaxMiss) {
+      overallMaxMiss = maxMiss;
+    }
+
+
+    if (simulation < 20) {
+
+      const actualDenominator =
+        wins > 0
+          ? trials / wins
+          : null;
+
+      history.push({
+        number: simulation + 1,
+        trials: trials,
+        wins: wins,
+        maxMiss: maxMiss,
+        actualDenominator:
+          actualDenominator
+      });
+
+    }
+
+  }
+
+
+  const totalTrials =
+    trials * simulations;
+
+  const expectedWins =
+    totalTrials * probability;
+
+  const actualProbability =
+    totalWins > 0
+      ? totalTrials / totalWins
+      : null;
+
+  const averageWins =
+    totalWins / simulations;
+
+  const winDifference =
+    totalWins - expectedWins;
+
+  const errorRate =
+    expectedWins !== 0
+      ? (
+          Math.abs(winDifference)
+          / expectedWins
+          * 100
+        )
+      : 0;
+
+
+  document.getElementById(
+    "totalTrials"
+  ).textContent =
+    formatNumber(totalTrials);
+
+
+  document.getElementById(
+    "totalWins"
+  ).textContent =
+    formatNumber(totalWins);
+
+
+  document.getElementById(
+    "actualProbability"
+  ).textContent =
+    actualProbability
+      ? "1 / " + actualProbability.toFixed(2)
+      : "当選なし";
+
+
+  document.getElementById(
+    "expectedWins"
+  ).textContent =
+    expectedWins.toFixed(2);
+
+
+  document.getElementById(
+    "maxMiss"
+  ).textContent =
+    formatNumber(overallMaxMiss);
+
+
+  document.getElementById(
+    "averageWins"
+  ).textContent =
+    averageWins.toFixed(2);
+
+
+  document.getElementById(
+    "theoreticalProbability"
+  ).textContent =
+    "1 / " + denominator;
+
+
+  const winDifferenceElement =
+    document.getElementById(
+      "winDifference"
+    );
+
+
+  winDifferenceElement.textContent =
+    (
+      winDifference >= 0
+        ? "+"
+        : ""
+    )
+    +
+    winDifference.toFixed(2);
+
+
+  winDifferenceElement.className =
+    "result-value "
+    +
+    (
+      winDifference >= 0
+        ? "positive"
+        : "negative"
+    );
+
+
+  document.getElementById(
+    "errorRate"
+  ).textContent =
+    errorRate.toFixed(2) + "%";
+
+
+  renderHistory(history);
+
+}
+
+
+function renderHistory(history) {
+
+  const body =
+    document.getElementById(
+      "historyBody"
+    );
+
+  body.innerHTML = "";
+
+
+  history.forEach(item => {
+
+    const row =
+      document.createElement("tr");
+
+    const probabilityText =
+      item.actualDenominator
+        ? "1 / "
+          + item.actualDenominator.toFixed(2)
+        : "当選なし";
+
+
+    row.innerHTML = `
+      <td>${item.number}</td>
+      <td>${formatNumber(item.trials)}</td>
+      <td>${formatNumber(item.wins)}</td>
+      <td>${formatNumber(item.maxMiss)}</td>
+      <td>${probabilityText}</td>
+    `;
+
+
+    body.appendChild(row);
+
+  });
+
+}
+
+</script>
+
+</body>
+</html>
