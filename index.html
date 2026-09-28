@@ -1,332 +1,216 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>確率シミュレーター｜1/319・1/99・任意確率を検証</title>
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="description"
-    content="1/319、1/199、1/99、1/8192など好きな確率で大量試行できる無料確率シミュレーター。最大ハマり、当選回数、実測確率、分布グラフを確認できます。"
-  >
+  <title>Probability Lab｜確率シミュレーター</title>
 
-  <!-- Chart.js -->
+  <meta name="description"
+        content="1/99・1/199・1/319・1/399・1/8192など任意の確率を大量シミュレーション。最大ハマり、当選回数、理論値、分布を無料で確認できます。">
+
+  <link rel="stylesheet" href="style.css">
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        "Hiragino Kaku Gothic ProN",
-        "Yu Gothic",
-        sans-serif;
-
-      background: #f3f5f8;
-      color: #222;
-    }
-
-    header {
-      background: #ffffff;
-      border-bottom: 1px solid #ddd;
-      padding: 25px 15px;
-      text-align: center;
-    }
-
-    header h1 {
-      margin: 0 0 8px;
-      font-size: 30px;
-    }
-
-    header p {
-      margin: 0;
-      color: #666;
-      font-size: 14px;
-    }
-
-    main {
-      width: min(1000px, 94%);
-      margin: 28px auto;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 15px;
-      padding: 24px;
-      margin-bottom: 22px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.06);
-    }
-
-    h2 {
-      margin-top: 0;
-      font-size: 21px;
-    }
-
-    .preset-title {
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .preset-buttons {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 22px;
-    }
-
-    .preset-buttons button {
-      width: auto;
-      margin: 0;
-      padding: 9px 15px;
-      font-size: 14px;
-      background: #eef1f5;
-      color: #222;
-      border: 1px solid #d4d8dd;
-    }
-
-    .preset-buttons button:hover {
-      background: #dde3ea;
-    }
-
-    .input-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
-    .field label {
-      display: block;
-      margin-bottom: 7px;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .field input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-    }
-
-    .hint {
-      font-size: 12px;
-      color: #777;
-      margin-top: 5px;
-    }
-
-    .start-button {
-      width: 100%;
-      margin-top: 20px;
-      border: none;
-      border-radius: 10px;
-      padding: 15px;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      background: #222;
-      color: white;
-    }
-
-    .start-button:hover {
-      opacity: 0.85;
-    }
-
-    .results {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
-
-    .result-box {
-      background: #f6f7f9;
-      padding: 18px 10px;
-      border-radius: 10px;
-      text-align: center;
-    }
-
-    .result-title {
-      color: #666;
-      font-size: 13px;
-      margin-bottom: 8px;
-    }
-
-    .result-value {
-      font-size: 24px;
-      font-weight: bold;
-      word-break: break-word;
-    }
-
-    .highlight {
-      background: #eef6ff;
-    }
-
-    .positive {
-      color: #08783d;
-    }
-
-    .negative {
-      color: #c53c36;
-    }
-
-    .chart-wrapper {
-      position: relative;
-      height: 360px;
-    }
-
-    .probability-box {
-      background: #f6f7f9;
-      border-radius: 10px;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .probability-main {
-      font-size: 30px;
-      font-weight: bold;
-      margin: 10px 0;
-    }
-
-    .probability-sub {
-      font-size: 13px;
-      color: #666;
-    }
-
-    .history {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 600px;
-    }
-
-    th,
-    td {
-      padding: 10px;
-      border-bottom: 1px solid #ddd;
-      text-align: center;
-    }
-
-    th {
-      background: #f4f5f7;
-      font-size: 13px;
-    }
-
-    .about {
-      line-height: 1.8;
-      color: #444;
-    }
-
-    footer {
-      text-align: center;
-      padding: 32px 15px;
-      color: #777;
-      font-size: 12px;
-    }
-
-    @media (max-width: 700px) {
-
-      header h1 {
-        font-size: 23px;
-      }
-
-      main {
-        margin-top: 16px;
-      }
-
-      .card {
-        padding: 18px;
-      }
-
-      .input-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .results {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .result-value {
-        font-size: 19px;
-      }
-
-      .chart-wrapper {
-        height: 300px;
-      }
-
-      .preset-buttons button {
-        flex-grow: 1;
-      }
-    }
-  </style>
 </head>
+
 
 <body>
 
-<header>
-  <h1>確率シミュレーター</h1>
-  <p>
-    好きな確率を設定して、大量試行した結果を確認できます。
-  </p>
+<!-- ================================
+     HEADER
+================================ -->
+
+<header class="site-header">
+
+  <div class="header-inner">
+
+    <a href="./" class="logo">
+
+      <span class="logo-icon">
+        P
+      </span>
+
+      <span>
+        Probability Lab
+      </span>
+
+    </a>
+
+
+    <nav>
+
+      <a href="#simulator">
+        シミュレーター
+      </a>
+
+      <a href="#result">
+        結果
+      </a>
+
+      <a href="#about">
+        このツールについて
+      </a>
+
+    </nav>
+
+  </div>
+
 </header>
 
 
-<main>
 
-  <!-- 設定 -->
-  <section class="card">
+<!-- ================================
+     HERO
+================================ -->
 
-    <h2>シミュレーション条件</h2>
+<section class="hero">
 
-    <div class="preset-title">
-      よく使う確率
+  <div class="hero-inner">
+
+    <div class="hero-badge">
+      Probability Simulator
     </div>
+
+    <h1>
+      確率を
+      <span>シミュレーション</span>
+      してみよう。
+    </h1>
+
+    <p>
+      1/319、1/99、1/8192。
+      理論上の確率が実際の試行でどのような結果になるのか、
+      ブラウザ上で簡単に確認できます。
+    </p>
+
+    <a href="#simulator"
+       class="hero-button">
+
+      シミュレーションする
+
+      <span>
+        ↓
+      </span>
+
+    </a>
+
+  </div>
+
+</section>
+
+
+
+<main class="container">
+
+
+<!-- ================================
+     SIMULATOR
+================================ -->
+
+<section
+  class="panel simulator-panel"
+  id="simulator"
+>
+
+  <div class="section-heading">
+
+    <div>
+
+      <p class="section-label">
+        SIMULATOR
+      </p>
+
+      <h2>
+        シミュレーション条件
+      </h2>
+
+    </div>
+
+    <span class="status-badge">
+      Browser calculation
+    </span>
+
+  </div>
+
+
+  <!-- PRESET -->
+
+  <div class="preset-area">
+
+    <p class="input-title">
+      プリセット
+    </p>
 
     <div class="preset-buttons">
 
-      <button onclick="setProbability(99)">
+      <button
+        class="preset"
+        data-value="99"
+      >
         1/99
       </button>
 
-      <button onclick="setProbability(129)">
+      <button
+        class="preset"
+        data-value="129"
+      >
         1/129
       </button>
 
-      <button onclick="setProbability(199)">
+      <button
+        class="preset"
+        data-value="199"
+      >
         1/199
       </button>
 
-      <button onclick="setProbability(319)">
+      <button
+        class="preset active"
+        data-value="319"
+      >
         1/319
       </button>
 
-      <button onclick="setProbability(399)">
+      <button
+        class="preset"
+        data-value="399"
+      >
         1/399
       </button>
 
-      <button onclick="setProbability(8192)">
+      <button
+        class="preset"
+        data-value="8192"
+      >
         1/8192
       </button>
 
     </div>
 
+  </div>
 
-    <div class="input-grid">
 
-      <div class="field">
 
-        <label for="probability">
-          当選確率 1 /
-        </label>
+  <!-- INPUTS -->
+
+  <div class="input-grid">
+
+
+    <div class="input-card">
+
+      <label for="probability">
+        当選確率
+      </label>
+
+      <div class="input-wrapper">
+
+        <span>
+          1 /
+        </span>
 
         <input
           id="probability"
@@ -336,976 +220,531 @@
           step="0.1"
         >
 
-        <div class="hint">
-          例：1/319なら319
-        </div>
-
       </div>
 
+      <small>
+        任意の確率を入力できます
+      </small>
 
-      <div class="field">
+    </div>
 
-        <label for="trials">
-          1セットの試行回数
-        </label>
+
+
+    <div class="input-card">
+
+      <label for="trials">
+        1セットの試行回数
+      </label>
+
+      <div class="input-wrapper">
 
         <input
           id="trials"
           type="number"
           value="1000"
           min="1"
-          max="1000000"
         >
 
-        <div class="hint">
-          例：1000回転
-        </div>
+        <span>
+          回
+        </span>
 
       </div>
 
+      <small>
+        例：1000回転
+      </small>
 
-      <div class="field">
+    </div>
 
-        <label for="simulations">
-          シミュレーション回数
-        </label>
+
+
+    <div class="input-card">
+
+      <label for="simulations">
+        シミュレーション回数
+      </label>
+
+      <div class="input-wrapper">
 
         <input
           id="simulations"
           type="number"
-          value="1000"
+          value="5000"
           min="1"
-          max="100000"
         >
 
-        <div class="hint">
-          同じ条件を何回試すか
-        </div>
+        <span>
+          セット
+        </span>
 
       </div>
+
+      <small>
+        同条件を何回試すか
+      </small>
 
     </div>
 
 
-    <button
-      class="start-button"
-      onclick="runSimulation()"
-    >
-      シミュレーション開始
-    </button>
-
-  </section>
+  </div>
 
 
-  <!-- 結果 -->
-  <section class="card">
 
-    <h2>シミュレーション結果</h2>
+  <div class="run-information">
 
-    <div class="results">
+    合計
 
-      <div class="result-box">
-        <div class="result-title">
-          総試行回数
-        </div>
-        <div
-          class="result-value"
-          id="totalTrials"
-        >
-          -
-        </div>
-      </div>
+    <strong id="operationPreview">
+      5,000,000
+    </strong>
+
+    回の抽選をシミュレーションします。
+
+  </div>
 
 
-      <div class="result-box highlight">
-        <div class="result-title">
-          総当選回数
-        </div>
-        <div
-          class="result-value"
-          id="totalWins"
-        >
-          -
-        </div>
-      </div>
+  <button
+    class="run-button"
+    id="runButton"
+  >
+
+    <span>
+      ▶
+    </span>
+
+    シミュレーション開始
+
+  </button>
+
+</section>
 
 
-      <div class="result-box">
-        <div class="result-title">
-          実測確率
-        </div>
-        <div
-          class="result-value"
-          id="actualProbability"
-        >
-          -
-        </div>
-      </div>
+
+<!-- ================================
+     RESULT
+================================ -->
+
+<section
+  class="result-section"
+  id="result"
+>
 
 
-      <div class="result-box">
-        <div class="result-title">
-          理論当選回数
-        </div>
-        <div
-          class="result-value"
-          id="expectedWins"
-        >
-          -
-        </div>
-      </div>
+  <div class="section-heading outside-heading">
 
+    <div>
 
-      <div class="result-box highlight">
-        <div class="result-title">
-          最大ハマり
-        </div>
-        <div
-          class="result-value"
-          id="maxMiss"
-        >
-          -
-        </div>
-      </div>
+      <p class="section-label">
+        RESULT
+      </p>
 
-
-      <div class="result-box">
-        <div class="result-title">
-          平均当選回数
-        </div>
-        <div
-          class="result-value"
-          id="averageWins"
-        >
-          -
-        </div>
-      </div>
+      <h2>
+        シミュレーション結果
+      </h2>
 
     </div>
 
-  </section>
+  </div>
 
 
-  <!-- 理論 -->
-  <section class="card">
 
-    <h2>理論値との比較</h2>
-
-    <div class="results">
-
-      <div class="result-box">
-
-        <div class="result-title">
-          理論確率
-        </div>
-
-        <div
-          class="result-value"
-          id="theoreticalProbability"
-        >
-          -
-        </div>
-
-      </div>
+  <div class="stats-grid">
 
 
-      <div class="result-box">
+    <div class="stat-card">
 
-        <div class="result-title">
-          当選回数差
-        </div>
+      <p>
+        総試行回数
+      </p>
 
-        <div
-          class="result-value"
-          id="winDifference"
-        >
-          -
-        </div>
-
-      </div>
-
-
-      <div class="result-box">
-
-        <div class="result-title">
-          誤差率
-        </div>
-
-        <div
-          class="result-value"
-          id="errorRate"
-        >
-          -
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- 当選確率 -->
-  <section class="card">
-
-    <h2>この回転数以内に当たる確率</h2>
-
-    <div class="probability-box">
-
-      <div class="probability-sub">
-        1回以上当選する理論確率
-      </div>
-
-      <div
-        class="probability-main"
-        id="hitWithinProbability"
-      >
+      <strong id="totalTrials">
         -
-      </div>
+      </strong>
 
-      <div
-        class="probability-sub"
-        id="missWithinProbability"
-      >
+      <span>
+        TOTAL TRIALS
+      </span>
+
+    </div>
+
+
+    <div class="stat-card primary">
+
+      <p>
+        総当選回数
+      </p>
+
+      <strong id="totalWins">
+        -
+      </strong>
+
+      <span>
+        TOTAL HITS
+      </span>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <p>
+        実測確率
+      </p>
+
+      <strong id="actualProbability">
+        -
+      </strong>
+
+      <span>
+        ACTUAL RATE
+      </span>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <p>
+        最大ハマり
+      </p>
+
+      <strong id="maxMiss">
+        -
+      </strong>
+
+      <span>
+        MAX DROUGHT
+      </span>
+
+    </div>
+
+
+  </div>
+
+
+
+  <!-- THEORY -->
+
+  <div class="panel">
+
+    <div class="section-heading">
+
+      <div>
+
+        <p class="section-label">
+          ANALYSIS
+        </p>
+
+        <h2>
+          理論値との比較
+        </h2>
+
       </div>
 
     </div>
 
-  </section>
+
+    <div class="analysis-grid">
 
 
-  <!-- グラフ -->
-  <section class="card">
+      <div class="analysis-item">
 
-    <h2>当選回数の分布</h2>
+        <span>
+          理論上の当選回数
+        </span>
 
-    <p class="hint">
-      各シミュレーションで何回当選したかを集計しています。
-    </p>
+        <strong id="expectedWins">
+          -
+        </strong>
 
-    <div class="chart-wrapper">
+      </div>
+
+
+      <div class="analysis-item">
+
+        <span>
+          1セット平均当選
+        </span>
+
+        <strong id="averageWins">
+          -
+        </strong>
+
+      </div>
+
+
+      <div class="analysis-item">
+
+        <span>
+          理論値との差
+        </span>
+
+        <strong id="winDifference">
+          -
+        </strong>
+
+      </div>
+
+
+      <div class="analysis-item">
+
+        <span>
+          誤差率
+        </span>
+
+        <strong id="errorRate">
+          -
+        </strong>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+
+  <!-- PROBABILITY -->
+
+  <div class="probability-banner">
+
+    <div>
+
+      <p>
+        この試行回数以内に
+        1回以上当たる理論確率
+      </p>
+
+      <strong id="hitWithinProbability">
+        -
+      </strong>
+
+    </div>
+
+
+    <div class="probability-detail">
+
+      <span>
+        一度も当たらない確率
+      </span>
+
+      <b id="missWithinProbability">
+        -
+      </b>
+
+    </div>
+
+  </div>
+
+
+
+<!-- ================================
+     CHART
+================================ -->
+
+  <div class="panel chart-panel">
+
+
+    <div class="chart-header">
+
+      <div>
+
+        <p class="section-label">
+          DISTRIBUTION
+        </p>
+
+        <h2>
+          当選回数の分布
+        </h2>
+
+        <p class="chart-description">
+          1セットごとに発生した当選回数を集計しています。
+        </p>
+
+      </div>
+
+
+      <div class="chart-average">
+
+        <span>
+          平均
+        </span>
+
+        <strong id="chartAverage">
+          -
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <div class="chart-container">
+
       <canvas id="distributionChart"></canvas>
+
     </div>
 
-  </section>
+
+  </div>
 
 
-  <!-- 履歴 -->
-  <section class="card history">
 
-    <h2>直近20セット</h2>
+<!-- ================================
+     HISTORY
+================================ -->
 
-    <table>
+  <div class="panel">
 
-      <thead>
+    <div class="section-heading">
 
-        <tr>
-          <th>No.</th>
-          <th>試行回数</th>
-          <th>当選回数</th>
-          <th>最大ハマり</th>
-          <th>実測確率</th>
-        </tr>
+      <div>
 
-      </thead>
+        <p class="section-label">
+          SAMPLE
+        </p>
 
-      <tbody id="historyBody">
+        <h2>
+          シミュレーション例
+        </h2>
 
-        <tr>
-          <td colspan="5">
-            シミュレーションを実行してください。
-          </td>
-        </tr>
+      </div>
 
-      </tbody>
-
-    </table>
-
-  </section>
+    </div>
 
 
-  <!-- 説明 -->
-  <section class="card about">
+    <div class="table-wrapper">
 
-    <h2>この確率シミュレーターについて</h2>
+      <table>
 
-    <p>
-      指定した確率をもとに、
-      JavaScriptの乱数を利用して大量試行を行います。
-    </p>
+        <thead>
 
-    <p>
-      例えば「319」と入力した場合、
-      1回の試行につき約1/319の確率で当選するものとして
-      シミュレーションします。
-    </p>
+          <tr>
 
-    <p>
-      実際の結果は理論値から大きく偏る場合があります。
-      このツールは確率の性質を確認するための
-      シミュレーション用ツールです。
-    </p>
+            <th>
+              #
+            </th>
 
-  </section>
+            <th>
+              試行
+            </th>
+
+            <th>
+              当選
+            </th>
+
+            <th>
+              最大ハマり
+            </th>
+
+            <th>
+              実測確率
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody id="historyBody">
+
+          <tr>
+
+            <td
+              colspan="5"
+              class="empty-table"
+            >
+
+              シミュレーションを実行すると
+              ここに結果が表示されます。
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+
+</section>
+
+
+
+<!-- ================================
+     ABOUT
+================================ -->
+
+<section
+  class="panel about"
+  id="about"
+>
+
+  <p class="section-label">
+    ABOUT
+  </p>
+
+  <h2>
+    このツールについて
+  </h2>
+
+  <p>
+    Probability Labは、
+    指定した確率を大量に試行し、
+    理論値と実際のシミュレーション結果の違いを
+    確認するための無料ツールです。
+  </p>
+
+  <p>
+    入力されたデータはサーバーへ送信されず、
+    シミュレーション処理はすべて
+    お使いのブラウザ内で実行されます。
+  </p>
+
+  <p class="notice">
+    ※表示される結果は乱数によるシミュレーションです。
+    実際の結果や将来の結果を保証するものではありません。
+  </p>
+
+</section>
+
 
 </main>
 
 
+
 <footer>
-  © 確率シミュレーター
+
+  <div class="footer-inner">
+
+    <div>
+
+      <strong>
+        Probability Lab
+      </strong>
+
+      <p>
+        確率を、もっと分かりやすく。
+      </p>
+
+    </div>
+
+    <span>
+      © 2026 Probability Lab
+    </span>
+
+  </div>
+
 </footer>
 
 
-<script>
-
-let distributionChart = null;
-
-
-/* -------------------------
-   数字表示
-------------------------- */
-
-function formatNumber(number) {
-
-  return Number(number).toLocaleString("ja-JP");
-
-}
-
-
-/* -------------------------
-   プリセット
-------------------------- */
-
-function setProbability(value) {
-
-  document.getElementById("probability").value =
-    value;
-
-}
-
-
-/* -------------------------
-   シミュレーション
-------------------------- */
-
-function runSimulation() {
-
-  const denominator =
-    parseFloat(
-      document.getElementById("probability").value
-    );
-
-  const trials =
-    parseInt(
-      document.getElementById("trials").value
-    );
-
-  const simulations =
-    parseInt(
-      document.getElementById("simulations").value
-    );
-
-
-  if (
-    !denominator ||
-    denominator <= 0 ||
-    !trials ||
-    trials <= 0 ||
-    !simulations ||
-    simulations <= 0
-  ) {
-
-    alert(
-      "正しい数値を入力してください。"
-    );
-
-    return;
-  }
-
-
-  const totalOperations =
-    trials * simulations;
-
-
-  if (totalOperations > 50000000) {
-
-    const ok =
-      confirm(
-        "試行回数が非常に多いため、処理に時間がかかる可能性があります。\n\n実行しますか？"
-      );
-
-    if (!ok) {
-      return;
-    }
-
-  }
-
-
-  const probability =
-    1 / denominator;
-
-
-  let totalWins = 0;
-
-  let overallMaxMiss = 0;
-
-  const history = [];
-
-  const winCounts = [];
-
-
-  for (
-    let simulation = 0;
-    simulation < simulations;
-    simulation++
-  ) {
-
-    let wins = 0;
-
-    let currentMiss = 0;
-
-    let maxMiss = 0;
-
-
-    for (
-      let trial = 0;
-      trial < trials;
-      trial++
-    ) {
-
-      if (
-        Math.random() < probability
-      ) {
-
-        wins++;
-
-        currentMiss = 0;
-
-      } else {
-
-        currentMiss++;
-
-
-        if (
-          currentMiss > maxMiss
-        ) {
-
-          maxMiss =
-            currentMiss;
-
-        }
-
-      }
-
-    }
-
-
-    totalWins += wins;
-
-    winCounts.push(wins);
-
-
-    if (
-      maxMiss > overallMaxMiss
-    ) {
-
-      overallMaxMiss =
-        maxMiss;
-
-    }
-
-
-    if (
-      simulation < 20
-    ) {
-
-      const actualDenominator =
-        wins > 0
-          ? trials / wins
-          : null;
-
-
-      history.push({
-
-        number:
-          simulation + 1,
-
-        trials:
-          trials,
-
-        wins:
-          wins,
-
-        maxMiss:
-          maxMiss,
-
-        actualDenominator:
-          actualDenominator
-
-      });
-
-    }
-
-  }
-
-
-  /* -------------------------
-     集計
-  ------------------------- */
-
-  const totalTrials =
-    trials * simulations;
-
-
-  const expectedWins =
-    totalTrials
-    * probability;
-
-
-  const actualProbability =
-    totalWins > 0
-      ? totalTrials / totalWins
-      : null;
-
-
-  const averageWins =
-    totalWins
-    / simulations;
-
-
-  const winDifference =
-    totalWins
-    - expectedWins;
-
-
-  const errorRate =
-    expectedWins !== 0
-      ?
-      Math.abs(
-        winDifference
-      )
-      /
-      expectedWins
-      *
-      100
-      :
-      0;
-
-
-  /* -------------------------
-     ○回以内当選
-  ------------------------- */
-
-  const noHitProbability =
-    Math.pow(
-      1 - probability,
-      trials
-    );
-
-
-  const hitProbability =
-    1 - noHitProbability;
-
-
-  /* -------------------------
-     HTML表示
-  ------------------------- */
-
-  document.getElementById(
-    "totalTrials"
-  ).textContent =
-    formatNumber(
-      totalTrials
-    );
-
-
-  document.getElementById(
-    "totalWins"
-  ).textContent =
-    formatNumber(
-      totalWins
-    );
-
-
-  document.getElementById(
-    "actualProbability"
-  ).textContent =
-    actualProbability
-      ?
-      "1 / "
-      +
-      actualProbability.toFixed(2)
-      :
-      "当選なし";
-
-
-  document.getElementById(
-    "expectedWins"
-  ).textContent =
-    expectedWins.toFixed(2);
-
-
-  document.getElementById(
-    "maxMiss"
-  ).textContent =
-    formatNumber(
-      overallMaxMiss
-    );
-
-
-  document.getElementById(
-    "averageWins"
-  ).textContent =
-    averageWins.toFixed(2);
-
-
-  document.getElementById(
-    "theoreticalProbability"
-  ).textContent =
-    "1 / "
-    +
-    denominator;
-
-
-  const differenceElement =
-    document.getElementById(
-      "winDifference"
-    );
-
-
-  differenceElement.textContent =
-    (
-      winDifference >= 0
-        ? "+"
-        : ""
-    )
-    +
-    winDifference.toFixed(2);
-
-
-  differenceElement.className =
-    "result-value "
-    +
-    (
-      winDifference >= 0
-        ? "positive"
-        : "negative"
-    );
-
-
-  document.getElementById(
-    "errorRate"
-  ).textContent =
-    errorRate.toFixed(2)
-    +
-    "%";
-
-
-  document.getElementById(
-    "hitWithinProbability"
-  ).textContent =
-    (
-      hitProbability
-      *
-      100
-    ).toFixed(2)
-    +
-    "%";
-
-
-  document.getElementById(
-    "missWithinProbability"
-  ).textContent =
-    trials.toLocaleString()
-    +
-    "回以内に一度も当たらない確率："
-    +
-    (
-      noHitProbability
-      *
-      100
-    ).toFixed(2)
-    +
-    "%";
-
-
-  /* -------------------------
-     その他
-  ------------------------- */
-
-  renderHistory(
-    history
-  );
-
-
-  renderDistributionChart(
-    winCounts
-  );
-
-}
-
-
-/* -------------------------
-   履歴
-------------------------- */
-
-function renderHistory(history) {
-
-  const body =
-    document.getElementById(
-      "historyBody"
-    );
-
-
-  body.innerHTML =
-    "";
-
-
-  history.forEach(
-    item => {
-
-      const row =
-        document.createElement(
-          "tr"
-        );
-
-
-      const probabilityText =
-        item.actualDenominator
-          ?
-          "1 / "
-          +
-          item.actualDenominator.toFixed(2)
-          :
-          "当選なし";
-
-
-      row.innerHTML = `
-
-        <td>
-          ${item.number}
-        </td>
-
-        <td>
-          ${formatNumber(item.trials)}
-        </td>
-
-        <td>
-          ${formatNumber(item.wins)}
-        </td>
-
-        <td>
-          ${formatNumber(item.maxMiss)}
-        </td>
-
-        <td>
-          ${probabilityText}
-        </td>
-
-      `;
-
-
-      body.appendChild(
-        row
-      );
-
-    }
-  );
-
-}
-
-
-/* -------------------------
-   分布グラフ
-------------------------- */
-
-function renderDistributionChart(
-  winCounts
-) {
-
-  const distribution = {};
-
-
-  winCounts.forEach(
-    wins => {
-
-      if (
-        !distribution[wins]
-      ) {
-
-        distribution[wins] =
-          0;
-
-      }
-
-
-      distribution[wins]++;
-
-    }
-  );
-
-
-  const labels =
-    Object
-      .keys(distribution)
-      .map(Number)
-      .sort(
-        (a, b) =>
-          a - b
-      );
-
-
-  const values =
-    labels.map(
-      label =>
-        distribution[label]
-    );
-
-
-  const ctx =
-    document
-      .getElementById(
-        "distributionChart"
-      )
-      .getContext(
-        "2d"
-      );
-
-
-  if (
-    distributionChart
-  ) {
-
-    distributionChart.destroy();
-
-  }
-
-
-  distributionChart =
-    new Chart(
-      ctx,
-      {
-
-        type:
-          "bar",
-
-        data: {
-
-          labels:
-            labels,
-
-          datasets: [
-
-            {
-
-              label:
-                "発生したセット数",
-
-              data:
-                values,
-
-              borderWidth:
-                1
-
-            }
-
-          ]
-
-        },
-
-        options: {
-
-          responsive:
-            true,
-
-          maintainAspectRatio:
-            false,
-
-          plugins: {
-
-            legend: {
-
-              display:
-                false
-
-            },
-
-            tooltip: {
-
-              callbacks: {
-
-                title:
-                  function(context) {
-
-                    return (
-                      context[0].label
-                      +
-                      "回当選"
-                    );
-
-                  },
-
-                label:
-                  function(context) {
-
-                    return (
-                      context.raw
-                      +
-                      "セット"
-                    );
-
-                  }
-
-              }
-
-            }
-
-          },
-
-          scales: {
-
-            x: {
-
-              title: {
-
-                display:
-                  true,
-
-                text:
-                  "1セットあたりの当選回数"
-
-              }
-
-            },
-
-            y: {
-
-              beginAtZero:
-                true,
-
-              title: {
-
-                display:
-                  true,
-
-                text:
-                  "発生回数"
-
-              }
-
-            }
-
-          }
-
-        }
-
-      }
-
-    );
-
-}
-
-</script>
+<script src="app.js"></script>
 
 </body>
 </html>
